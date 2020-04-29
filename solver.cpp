@@ -50,9 +50,8 @@ namespace solver{
      RealVariable operator/(const RealVariable l,const RealVariable r) {
         return 0;
     }
-     RealVariable operator^(const RealVariable l,const RealVariable r) { return 0;}
-
-     //relevant for solve function
+     RealVariable operator^(const RealVariable l,const RealVariable r) { return 0;  }
+    //relevant for solve function
      RealVariable operator== (const double d,const RealVariable r){ return 0;}
      RealVariable operator== (const RealVariable l,const RealVariable r){ return 0;}
 
@@ -62,7 +61,7 @@ namespace solver{
      ComplexVariable operator*(const ComplexVariable r,const complex<double> d){ return d;}
      ComplexVariable operator/(const ComplexVariable r,const complex<double> d){ return d;;}
      ComplexVariable operator^(const ComplexVariable r,const complex<double> d){ return d;}
-    //right 
+    //right
      ComplexVariable operator+(const complex<double> d,const ComplexVariable r){ return d;}
      ComplexVariable operator-(const complex<double> d,const ComplexVariable r){return d;}
      ComplexVariable operator*(const complex<double> d,const ComplexVariable r){return d;}
@@ -75,8 +74,13 @@ namespace solver{
      ComplexVariable operator/(const ComplexVariable l,const ComplexVariable r){return l;}
      ComplexVariable operator^(const ComplexVariable l,const ComplexVariable r){return l;}
     //relevant for solve function
+
+
      ComplexVariable operator== (const complex<double> d,const ComplexVariable r){return r;}
      ComplexVariable operator== (const ComplexVariable l,const complex<double> d){return l;}
      ComplexVariable operator== (const ComplexVariable l,const ComplexVariable r){return l;}
 
+
+   double solve(const RealVariable e){return 1.0;}
+    complex<double> solve(const ComplexVariable e){return NULL;}
 };
