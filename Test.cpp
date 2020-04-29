@@ -58,23 +58,23 @@ TEST_CASE("RealVariable - polynomial equations") {
 
     RealVariable x;
 
-            CHECK(solve((x^2) == 16)==4 ||solve(x^2 == 16)== -4 );
+           CHECK(solve( (x^2) == 16)==4);     //second solution
 
            CHECK(solve((x^3) == 8)==2 );
 
-            CHECK(solve((x^2) == -8)==-2 );
+            CHECK(solve((x^4) == 16)==2 );      //second solution    
 
             CHECK(solve((x^3) == 27)==3 );
 
-            CHECK(solve((x^2) == 64)==8 ||solve(x^2 == 64)==-8 );
+           CHECK(solve((x^2) == 64)==8 );       //second solution
 
-            CHECK(solve((x^2)+(x^2) == 128)==8 ||solve(x^2+x^2 == 128)== -8);
+           CHECK(solve(  ( ( ( ((x^2)+(x^2)) == 128)==8))));    //second solution
 
             CHECK(solve((x^3)+(x^3) == 16)==2  );
 
            CHECK(solve((x^3)+(x^3) == -16)==-2 );
 
-            CHECK(solve((x^2)-(x^2) == 0)==1 );
+            CHECK(solve((x^2)-(x^2) == 0)==0 );
 
             CHECK(solve(2*(x^2)-(x^2)-1 == 0)==1 );         //21
 
@@ -116,7 +116,7 @@ TEST_CASE("ComplexVariable - linear equations") {
 
             CHECK(fact(solve(-1*y^2+4*y == 15) ==complex(2.0,sqrt(11))  ,solve(-1*y^2+4*y == 15) ==complex(2.0,-sqrt(11)) ));
 
-           CHECK(fact(solve(-1*y^2+6*y == 15) ==complex(3.0,sqrt(6))  ,solve(-1*y^2+6*y == 15) ==complex(3.0,-sqrt(6))) );
+            CHECK(fact(solve(-1*y^2+6*y == 15) ==complex(3.0,sqrt(6))  ,solve(-1*y^2+6*y == 15) ==complex(3.0,-sqrt(6))) );
 
             CHECK(fact(solve(-1*y^2+8*y == 15) ==complex(5.0,0.0)  ,solve(-1*y^2+8*y == 15) ==complex(3.0,0.0)) );
 
@@ -297,5 +297,6 @@ TEST_CASE("RealVariable - extra tests") {
             
 
 }
+
 
 
