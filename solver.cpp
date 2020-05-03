@@ -69,7 +69,7 @@ namespace solver{           // https://www.programiz.com/cpp-programming/example
 //    RealVariable operator^(const RealVariable l,const RealVariable r) { return 0;  }
     double solve(const RealVariable& e){
         double discriminant;
-        if(e.a == 0) {          // The equation is linear
+        if(e.a == 0) {
             if ((e.b == 0) && (e.c != 0))throw std::runtime_error(std::string("Exception - not an equation"));
             return -e.c/e.b;
         }
@@ -80,32 +80,99 @@ namespace solver{           // https://www.programiz.com/cpp-programming/example
 
     }
 
+    //equal
+    ComplexVariable operator== (const complex<double> d,const ComplexVariable& r){return d-r;}
+    ComplexVariable operator== (const ComplexVariable& l,const complex<double> d){return l-d;}
+    ComplexVariable operator== (const ComplexVariable& l,const ComplexVariable& r){return l-r;}
+
     //left
-    ComplexVariable operator+(const ComplexVariable& r,const complex<double> d){ return d;}
-    ComplexVariable operator-(const ComplexVariable& r,const complex<double> d){ return d;}
-    ComplexVariable operator*(const ComplexVariable& r,const complex<double> d){ return d;}
-    ComplexVariable operator/(const ComplexVariable& r,const complex<double> d){ return d;;}
-    ComplexVariable operator^(const ComplexVariable& r,const complex<double> d){ return d;}
+    ComplexVariable operator+(const ComplexVariable& r,const complex<double> d){
+        return ComplexVariable(r.a,r.b,r.c+d);
+    }
+    ComplexVariable operator-(const ComplexVariable& r,const complex<double> d){
+        return ComplexVariable(r.a,r.b,r.c-d);
+    }
+    ComplexVariable operator*(const ComplexVariable& r,const complex<double> d){
+        return ComplexVariable(r.a*d,r.b*d,r.c*d);
+    }
+//    ComplexVariable operator/(const ComplexVariable& r,const complex<double> d){
+//    }
+    ComplexVariable operator^(const ComplexVariable& r,const complex<double> d){
+        if(d.imag() != 0) throw std::runtime_error(std::string("Exception - power isn't available"));
+
+        if(d.real() == 2) {
+            return r*r;
+        }
+        if (d.real() == 1) {
+            return r;
+        }
+        if (d.real() == 0) {
+            std::complex<double> a(0.0,0.0);
+            std::complex<double> b(0.0,0.0);
+            std::complex<double> c(1.0,0.0);
+            return ComplexVariable(a,b,c);
+        }
+        throw std::runtime_error(std::string("Exception - power isn't available"));
+
+    }
     //right
-    ComplexVariable operator+(const complex<double> d,const ComplexVariable& r){ return d;}
-    ComplexVariable operator-(const complex<double> d,const ComplexVariable& r){return d;}
-    ComplexVariable operator*(const complex<double> d,const ComplexVariable& r){return d;}
-    ComplexVariable operator/(const complex<double> r,const ComplexVariable& d){return d;}
-    ComplexVariable operator^(const complex<double> r,const ComplexVariable& d){return d;}
+    ComplexVariable operator+(const complex<double> d,const ComplexVariable& r){
+        return ComplexVariable(r.a,r.b,r.c+d);}
+    ComplexVariable operator-(const complex<double> d,const ComplexVariable& r){
+        return  ComplexVariable(-r.a,-r.b,-r.c+d);
+    }
+    ComplexVariable operator*(const complex<double> d,const ComplexVariable& r){
+        return ComplexVariable(r.a*d,r.b*d,r.c*d);
+    }
+    ComplexVariable operator/(const complex<double> d,const ComplexVariable& r){
+        if(d.imag()==0 && d.real()==0)throw std::runtime_error(std::string("Exception - dividing with zero"));
+        return ComplexVariable(r.a/d,r.b/d,r.c/d);
+    }
+//    ComplexVariable operator^(const complex<double> r,const ComplexVariable& d){return d;}
+
     //both
-    ComplexVariable operator+(const ComplexVariable& l,const ComplexVariable& r){return l;}
-    ComplexVariable operator-(const ComplexVariable& l,const ComplexVariable& r){return l;}
-    ComplexVariable operator*(const ComplexVariable& l,const ComplexVariable& r){return l;}
-    ComplexVariable operator/(const ComplexVariable& l,const ComplexVariable& r){return l;}
-    ComplexVariable operator^(const ComplexVariable& l,const ComplexVariable& r){return l;}
+    ComplexVariable operator+(const ComplexVariable& l,const ComplexVariable& r){
+        return ComplexVariable(l.a+r.a,l.b+r.b,l.c+r.c);
+    }
+    ComplexVariable operator-(const ComplexVariable& l,const ComplexVariable& r){
+        return ComplexVariable(l.a-r.a,l.b-r.b,l.c-r.c);
+    }
+    ComplexVariable operator*(const ComplexVariable& l,const ComplexVariable& r){
+        std::complex<double> zero(0.0,0.0);
+        if(l.a != zero && r.a != zero) throw std::runtime_error(std::string("Exception - power isn't available"));
+        if(l.a != zero && r.b != zero) throw std::runtime_error(std::string("Exception - power isn't available"));
+        if(l.b != zero && r.a != zero) throw std::runtime_error(std::string("Exception - power isn't available"));
+
+        return ComplexVariable(l.a * r.c + l.b * r.b + l.c * r.a ,l.b * r.c + r.b * l.c,l.c * r.c);
+    }
+    ComplexVariable operator/(const ComplexVariable& l,const ComplexVariable& r){
+        std::complex<double> zero(0.0,0.0);
+        std::complex<double> one(1.0,0.0);
+        if(r.a==zero && r.b==zero && r.c==zero) throw std::runtime_error(std::string("Exception - Dividing with zero"));
+        if(l.a==r.a && l.b==r.b && l.c==r.c) return ComplexVariable(0, 0, one);
+        if(r.a == zero && r.b == zero) return l/r.c;
+        throw std::runtime_error(std::string("Exception - Division is not possible"));
+    }
+//    ComplexVariable operator^(const ComplexVariable& l,const ComplexVariable& r){return l;}
+
     //relevant for solve function
 
 
-    ComplexVariable operator== (const complex<double> d,const ComplexVariable& r){return r;}
-    ComplexVariable operator== (const ComplexVariable& l,const complex<double> d){return l;}
-    ComplexVariable operator== (const ComplexVariable& l,const ComplexVariable& r){return l;}
+    complex<double> solve(const ComplexVariable& e){
+        std::complex<double> zero(0.0,0.0);
+
+        if(e.a==zero && e.b==zero && e.c==zero) return 0;
+
+        if(e.a == zero) {
+            if ((e.b == zero) && (e.c != zero)) throw std::runtime_error(std::string("Exception - no solution for equation"));
+            else return -e.c/e.b;
+        }
+
+        complex<double> discriminant,four(4.0,0.0),two(2.0,0.0);
 
 
+        discriminant = e.b*e.b - four*e.a*e.c;
 
-    complex<double> solve(const ComplexVariable& e){return NULL;}
+        return  (-e.b + sqrt(discriminant)) / (two*e.a);
+    }
 };

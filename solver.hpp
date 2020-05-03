@@ -47,22 +47,18 @@ namespace solver{
 
 
     };
+
     class ComplexVariable{
     public:
-        complex<double> coe,x,exp;
+        complex<double> a,b,c;
 
-        ComplexVariable(): coe(0), x(1,0), exp(0) {}
+        ComplexVariable(): a(0), b(1,0), c(0) {}
 
         ComplexVariable(complex<double> a, complex<double> b, complex<double> c) {
-            this->coe = a;
-            this->x = b;
-            this->exp = c;
+            this->a = a;
+            this->b = b;
+            this->c = c;
         }
-
-        ComplexVariable(complex<double> num){
-            this->x=num;
-        }
-        const complex<double>& getx() const { return this->x;}
 
         //left
         friend ComplexVariable operator+(const ComplexVariable& r,const complex<double> d);
