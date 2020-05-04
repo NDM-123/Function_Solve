@@ -34,6 +34,8 @@ namespace solver{
         //right
         friend RealVariable operator-(const double d,const RealVariable& r);
         friend RealVariable operator/(const double d,const RealVariable& r);
+        friend RealVariable operator+(const double d,const RealVariable& r);
+        friend RealVariable operator*(const double d,const RealVariable& r);
         friend RealVariable operator^(const double d,const RealVariable& r);
         //both
         friend RealVariable operator+(const RealVariable& l,const RealVariable& r);
@@ -43,6 +45,7 @@ namespace solver{
         friend RealVariable operator^(const RealVariable& l,const RealVariable& r);
         //relevant for solve function
         friend RealVariable operator== (const double d,const RealVariable& r);
+        friend RealVariable operator== (const RealVariable& r,const double d);
         friend RealVariable operator== (const RealVariable& l,const RealVariable& r);
 
 

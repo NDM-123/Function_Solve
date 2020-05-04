@@ -9,11 +9,14 @@ namespace solver{           // https://www.programiz.com/cpp-programming/example
 
     RealVariable operator+(const RealVariable& r,const double d) {
         return RealVariable(r.a,r.b,r.c+d);
+    }RealVariable operator+(const double d,const RealVariable& r) {
+        return RealVariable(r.a,r.b,r.c+d);
     }
     RealVariable operator-(const RealVariable& r,const double d) {
         return RealVariable(r.a,r.b,r.c-d);
     }
     RealVariable operator*(const RealVariable& r,const double d) {return RealVariable(r.a*d,r.b*d,r.c*d);}
+    RealVariable operator*(const double d,const RealVariable& r) {return RealVariable(r.a*d,r.b*d,r.c*d);}
     RealVariable operator/(const RealVariable& r,const double d) {
         if(d==0)throw std::runtime_error(std::string("Exception - Divide with zero"));
         return RealVariable(r.a/d,r.b/d,r.c/d);
@@ -43,10 +46,12 @@ namespace solver{           // https://www.programiz.com/cpp-programming/example
 //        return (d^r.a)*(d^r.b);
 //    }
     RealVariable operator== (const double d,const RealVariable& r){
-        if(d==0 && r.a==0 && r.b==0 && r.c==0)return RealVariable (r.a, r.b, r.c - d);;
+    //    if(d==0 && r.a==0 && r.b==0 && r.c==0)return RealVariable (r.a, r.b, r.c - d);;
+        return d-r;
     }
     RealVariable operator== (const RealVariable& l,const RealVariable& r){
-        return RealVariable (l.a-r.a, l.b-r.b, l.c-r.c );
+        return l-r;
+       // return RealVariable (l.a-r.a, l.b-r.b, l.c-r.c );
     }
     //both
     RealVariable operator+(const RealVariable& l,const RealVariable& r) { //assuming they are from the same expo
