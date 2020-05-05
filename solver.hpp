@@ -1,5 +1,4 @@
 
-
 #ifndef SOLVER_A_MASTER_SOLVER_HPP
 #define SOLVER_A_MASTER_SOLVER_HPP
 
@@ -12,8 +11,6 @@
 using namespace std;
 namespace solver{
 
-
-
     class RealVariable{
     public:
         double a,b,c;
@@ -23,7 +20,7 @@ namespace solver{
             this->b = b;
             this->c = c;
         }
-    RealVariable():a(0),b(1),c(1){};
+    RealVariable():a(0),b(1),c(0){};
 
         //left
         friend RealVariable operator+(const RealVariable& r,const double d);
@@ -46,7 +43,11 @@ namespace solver{
         //relevant for solve function
         friend RealVariable operator== (const double d,const RealVariable& r);
         friend RealVariable operator== (const RealVariable& r,const double d);
-        friend RealVariable operator== (const RealVariable& l,const RealVariable& r);
+        friend RealVariable operator== (const RealVariable& l,const RealVariable& r){
+        return l-r;
+}
+ friend RealVariable operator== (const RealVariable& r,const double d);
+
 
 
     };

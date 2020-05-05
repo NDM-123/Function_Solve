@@ -5,7 +5,11 @@
 #include "solver.hpp"
 
 using namespace std;
+
+
+
 namespace solver{           // https://www.programiz.com/cpp-programming/examples/quadratic-roots
+
 
     RealVariable operator+(const RealVariable& r,const double d) {
         return RealVariable(r.a,r.b,r.c+d);
@@ -49,10 +53,18 @@ namespace solver{           // https://www.programiz.com/cpp-programming/example
     //    if(d==0 && r.a==0 && r.b==0 && r.c==0)return RealVariable (r.a, r.b, r.c - d);;
         return d-r;
     }
-    RealVariable operator== (const RealVariable& l,const RealVariable& r){
-        return l-r;
-       // return RealVariable (l.a-r.a, l.b-r.b, l.c-r.c );
+ RealVariable operator== (const RealVariable& r,const double d){
+    //    if(d==0 && r.a==0 && r.b==0 && r.c==0)return RealVariable (r.a, r.b, r.c - d);;
+        return r-d;
     }
+
+
+    //RealVariable RealVariable::operator== (const RealVariable& l,const RealVariable& r){
+      //  return l-r;
+       // return RealVariable (l.a-r.a, l.b-r.b, l.c-r.c );
+    //}
+
+
     //both
     RealVariable operator+(const RealVariable& l,const RealVariable& r) { //assuming they are from the same expo
         return RealVariable(l.a+r.a,l.b+r.b,l.c+r.c);
@@ -71,8 +83,11 @@ namespace solver{           // https://www.programiz.com/cpp-programming/example
         if(r.a == 0 && r.b == 0) return RealVariable(l.a/r.c,l.b/r.c,l.c/r.c);
         throw std::runtime_error(std::string("Exception - Division is not possible"));
     }
+
+
 //    RealVariable operator^(const RealVariable l,const RealVariable r) { return 0;  }
     double solve(const RealVariable& e){
+
         double discriminant;
         if(e.a == 0) {
             if ((e.b == 0) && (e.c != 0))throw std::runtime_error(std::string("Exception - not an equation"));
@@ -84,6 +99,8 @@ namespace solver{           // https://www.programiz.com/cpp-programming/example
         throw std::runtime_error(std::string("Exception - equation is imaginary"));
 
     }
+
+ 
 
     //equal
     ComplexVariable operator== (const complex<double> d,const ComplexVariable& r){return d-r;}
@@ -100,8 +117,15 @@ namespace solver{           // https://www.programiz.com/cpp-programming/example
     ComplexVariable operator*(const ComplexVariable& r,const complex<double> d){
         return ComplexVariable(r.a*d,r.b*d,r.c*d);
     }
-//    ComplexVariable operator/(const ComplexVariable& r,const complex<double> d){
-//    }
+
+
+    ComplexVariable operator/(const ComplexVariable& r,const complex<double> d){
+        if(d.imag()==0 && d.real()==0)throw std::runtime_error(std::string("Exception - dividing with zero"));
+        return ComplexVariable(r.a/d,r.b/d,r.c/d);
+
+    }
+
+
     ComplexVariable operator^(const ComplexVariable& r,const complex<double> d){
         if(d.imag() != 0) throw std::runtime_error(std::string("Exception - power isn't available"));
 
@@ -120,6 +144,28 @@ namespace solver{           // https://www.programiz.com/cpp-programming/example
         throw std::runtime_error(std::string("Exception - power isn't available"));
 
     }
+
+ ComplexVariable operator^(const ComplexVariable& r,const ComplexVariable& d){
+        if(d.a.imag() != 0||d.b.imag() != 0||d.c.imag() != 0) throw std::runtime_error(std::string("Exception - power isn't available"));
+        std::complex<double> zero(0.0,0.0);
+      if(d.a != zero||d.b != zero) throw std::runtime_error(std::string("Exception - power isn't available"));
+        if(d.c.real() == 2) {
+            return r*r;
+        }
+        if (d.c.real() == 1) {
+            return r;
+        }
+        if (d.c.real() == 0) {
+            std::complex<double> a(0.0,0.0);
+            std::complex<double> b(0.0,0.0);
+            std::complex<double> c(1.0,0.0);
+            return ComplexVariable(a,b,c);
+        }
+        throw std::runtime_error(std::string("Exception - power isn't available"));
+
+    }
+
+
     //right
     ComplexVariable operator+(const complex<double> d,const ComplexVariable& r){
         return ComplexVariable(r.a,r.b,r.c+d);}
