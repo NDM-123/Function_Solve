@@ -94,7 +94,7 @@ namespace solver{           // https://www.programiz.com/cpp-programming/example
             return -e.c/e.b;
         }
         discriminant = e.b*e.b - 4*e.a*e.c;
-        if(discriminant>=0)return  (e.b + sqrt(discriminant)) / (2*e.a);
+        if(discriminant>=0)return  (-e.b + sqrt(discriminant)) / (2*e.a);
 
         throw std::runtime_error(std::string("Exception - equation is imaginary"));
 
